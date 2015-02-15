@@ -1,0 +1,23 @@
+import Control.Exception
+import Control.Parallel.Strategies
+import Data.List
+
+isPalindrome :: Integral a => a -> Bool
+isPalindrome x = (x == symmetric) 
+    where
+      listDigits k = if k == 0 then [] else (k `mod` 10):listDigits (k `quot` 10)
+      decimal [] = 0
+      decimal (k:ks) = k + 10*decimal ks
+          
+      symmetric = decimal $ reverse $ listDigits x
+
+
+answer n = palindromeProduct 1
+    where
+      lowerLimit = 10^(n-1) 
+      upperLimit = (10^n) -1
+      nDigit = [upperLimit, upperLimit-1 .. lowerLimit]
+      palindromeProduct x = foldl 
+                            (\ l y -> if isPalindrome x*y then x*y : l else l)
+                            []
+                            nDigit

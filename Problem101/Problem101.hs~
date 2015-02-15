@@ -1,0 +1,8 @@
+
+
+p :: [Double,Double] -> Double -> Double
+p l = pj (head l) 
+    where
+      pj (xj,yj) x = yj * foldl f 1 l
+          where
+            f p (xk,_) = p * (x-xk) /(xj-xk)

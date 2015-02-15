@@ -1,0 +1,11 @@
+import Data.Numbers.Primes
+
+prmFct :: Integer -> [Integer]
+prmFct x = factor x prm
+    where
+      prm = takeWhile (<= x) primes 
+      factor _ [] = []
+      factor 1 _  = []
+      factor k (p:ps) = if k `mod` p == 0
+                        then [p]: factor (k `quot` p) (p:ps)
+                        else factor k ps

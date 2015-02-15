@@ -1,0 +1,16 @@
+import Data.List
+
+target = 2 * 10^6
+
+nSquares (x,y) = (x^2 +x)*(y^2 +y)/4
+
+erreur (x,y) = abs (nSquares x y -target)
+
+coord l = map f l
+    where
+      f x = map (\ y -> (x,y)) l
+
+ans = cond
+    where
+      coords = coord [1..100]
+      cond x1 x2  = compare (erreur x1) (erreur x2)  

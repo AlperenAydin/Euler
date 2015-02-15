@@ -1,0 +1,23 @@
+data Tree a = Leaf a
+            | Node a (Tree a) (Tree a)
+            deriving (Eq,Show)
+
+
+findBestPath :: Tree Integer -> Integer
+findBestPath (Leaf a) = a
+findBestPath (Node a left right) = a + max nLeft nRight
+    where
+      nLeft  = findBestPath left
+      nRight = findBestPath right
+
+getTree ::  a-> [[a]] -> Tree a
+getTree x [] = Leaf x
+getTree x array = Node x left right
+    where
+      (l:r:_) = head array
+      left_array  = drop 1 array
+      right_array = map (drop 1) left_array
+      left  = getTree l left_array
+      right = getTree r right_array 
+
+test = [[3],[7,4],[2,4,6],[8,5,9,3]]

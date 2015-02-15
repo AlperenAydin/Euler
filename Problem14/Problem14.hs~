@@ -1,0 +1,12 @@
+import Data.List
+
+collatz :: Integer -> [Integer]
+collatz n = n:next n 
+    where
+      next 1 = []
+      next x = ans : next ans
+          where
+            ans = if even x 
+                  then x `quot`2
+                  else 3*x+1
+

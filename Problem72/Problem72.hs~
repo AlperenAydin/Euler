@@ -1,0 +1,38 @@
+{-# LANGUAGE NoMonomorphismRestriction #-}
+import Control.Parallel.Strategies
+import Data.List
+import Data.List.Split
+import Data.Numbers.Primes
+
+fact n = map head $ group $ primeFactors n
+
+
+totient n =  floor $ foldl (\ pr p -> pr*(1-1/p)) n' ps  
+    where
+      ps = (map fromIntegral $ fact n) :: [Double]
+      n' = fromIntegral n
+
+
+answer = sum lk
+    where
+      ls = chunksOf 100 [2..10^6]
+      s l= foldl (\s d -> s+totient d) 0 l 
+      lk = (map s ls) `using` parList rseq
+
+main = do
+  print answer
+
+mod' x y = x' `mod` y'
+    where
+      x' = floor x
+      y' = floor y
+
+totient' = tot [2.0 ..]
+          where
+            tot (p:ps) 
+                | isPrime p = p : tot [m*x|x <-ps 
+                                      , let m = if x `mod'` p ==0 
+                                            then (1-1/p) 
+                                            else 1
+                                                ]
+                | otherwise = tot ps

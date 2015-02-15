@@ -1,0 +1,30 @@
+import Solution
+import qualified System.IO.Strict as Strict
+
+test      = "test.txt"
+problem18 = "tri18.txt"
+problem67 = "tri67.txt"
+
+readInteger :: String -> Integer
+readInteger x = read x :: Integer
+
+answer :: FilePath -> IO ()
+answer filename = do
+    contents <- Strict.readFile filename
+    let array = map words $ lines contents
+        body  = tail  array
+        root  = head $ head array
+        tree  = fmap readInteger $ getTree root body
+    print $ bestPath tree
+
+
+main = do
+  putStrLn test
+  answer test
+         
+  putStrLn problem18
+  answer problem18
+
+  putStrLn problem67
+  answer problem67  
+
